@@ -10,6 +10,15 @@ class Location(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def to_json(self):
+        return {
+            "id": self.id,
+            "city": self.city,
+            "state": self.state,
+            "country": self.country,
+            "zip_code": self.zip_code,
+        }
+
     def __str__(self):
         return f"{self.city}, {self.state}, {self.country}"
 
@@ -28,7 +37,7 @@ PROPERTY_TYPES = {
 
 
 class Property(models.Model):
-    title = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
     description = models.TextField()
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPES)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
@@ -53,5 +62,26 @@ class Property(models.Model):
     def rooms(self):
         return self.bedrooms + self.bathrooms
 
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "property_type": self.property_type,
+            "property_type_as_string": self.get_property_type_display(),
+            "location": self.location.to_json(),
+            "square_feet": self.square_feet,
+            "bedrooms": self.bedrooms,
+            "bathrooms": self.bathrooms,
+            "rooms": self.rooms,
+            "has_garage": self.has_garage,
+            "has_balcony": self.has_balcony,
+            "has_basement": self.has_basement,
+            "has_pool": self.has_pool,
+            "year_built": self.year_built,
+            "is_available": self.is_available,
+            "price": self.price,
+        }
+
     def __str__(self):
-        return self.title
+        return f"{self.name}"
