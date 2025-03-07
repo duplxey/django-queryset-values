@@ -36,17 +36,16 @@ def property_detail_view(request, id):
 
 def property_amenities_view(request, id):
     try:
-        property = Property.objects.get(id=id)
+        property = Property.objects.only(
+            "id", "has_garage", "has_balcony", "has_basement", "has_pool"
+        ).get(id=id)
         return JsonResponse({
             "id": property.id,
-            "bedrooms": property.bedrooms,
-            "bathrooms": property.bathrooms,
             "has_garage": property.has_garage,
             "has_balcony": property.has_balcony,
             "has_basement": property.has_basement,
             "has_pool": property.has_pool,
         })
-
     except Property.DoesNotExist:
         return JsonResponse(
             {
