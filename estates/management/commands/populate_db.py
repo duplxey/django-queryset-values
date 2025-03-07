@@ -55,7 +55,7 @@ class Command(BaseCommand):
         properties = [
             Property(
                 name=generate_random_property_name(),
-                description=fake.paragraph(),
+                description=fake.paragraph(nb_sentences=250),
                 property_type=fake.random_element(
                     [key for key in PROPERTY_TYPES.keys()]
                 ),

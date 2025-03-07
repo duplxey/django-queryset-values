@@ -1,8 +1,10 @@
 from django.urls import path
 
-from estates.views import properties_list_view, properties_detail_view
+from estates.views import property_list_view, property_detail_view, \
+    property_amenities_view
 
 urlpatterns = [
-    path("", properties_list_view, name="estates-list"),
-    path("<int:id>/", properties_detail_view, name="estates-detail"),
+    path("", property_list_view, name="estates-list"),
+    path("<int:id>/", property_detail_view, name="estates-detail"),
+    path("<int:id>/amenities/", property_amenities_view, name="estates-short-detail"),
 ]
